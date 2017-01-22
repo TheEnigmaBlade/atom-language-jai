@@ -1,8 +1,13 @@
 {
   "name": "language-rust-jai",
-  "version": "0.1.0",
+  "version": "0.1.1-0",
   "description": "JAI language support for Atom",
-  "keywords": ["language", "grammar", "syntax", "jai"],
+  "keywords": [
+    "language",
+    "grammar",
+    "syntax",
+    "jai"
+  ],
   "license": "MIT",
   "engines": {
     "atom": ">0.50.0 <2.0.0"
