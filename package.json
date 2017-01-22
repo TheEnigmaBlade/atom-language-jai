@@ -1,0 +1,19 @@
+{
+  "name": "language-rust-jai",
+  "version": "0.1.0",
+  "description": "JAI language support for Atom",
+  "keywords": ["language", "grammar", "syntax", "jai"],
+  "license": "MIT",
+  "engines": {
+    "atom": ">0.50.0 <2.0.0"
+  },
+  "dependencies": {},
+  "homepage": "https://github.com/theenigmablade/atom-language-jai",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/theenigmablade/atom-language-jai.git"
+  },
+  "bugs": {
+    "url": "https://github.com/theenigmablade/atom-language-jai/issues"
+  }
+}

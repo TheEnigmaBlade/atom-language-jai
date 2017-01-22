@@ -1,0 +1,15 @@
+'.source.jai':
+  'editor':
+    'commentStart': '//'
+    'increaseIndentPattern': '(?x)
+       ^ .* \\{ [^}"\']* $
+      |^ .* \\( [^\\)"\']* $
+      |^ \\s* \\{ \\} $
+      '
+    'decreaseIndentPattern': '(?x)
+       ^ \\s* (\\s* /[*] .* [*]/ \\s*)* \\}
+      |^ \\s* (\\s* /[*] .* [*]/ \\s*)* \\)
+      '
+    'tabLength': 4
+    'softTabs': false
+    'preferredLineLength': 99

@@ -1,0 +1,409 @@
+name: 'JAI'
+scopeName: 'source.jai'
+fileTypes: ['jai']
+
+repository: {
+  
+  #   #####
+  #  #     #  ####  #    # #    # ###### #    # #####  ####
+  #  #       #    # ##  ## ##  ## #      ##   #   #   #
+  #  #       #    # # ## # # ## # #####  # #  #   #    ####
+  #  #       #    # #    # #    # #      #  # #   #        #
+  #  #     # #    # #    # #    # #      #   ##   #   #    #
+  #   #####   ####  #    # #    # ###### #    #   #    ####
+  
+  'line_comment': {
+    comment: 'Single-line comment'
+    name: 'comment.line.jai'
+    begin: '//'
+    end: '$'
+  }
+  'block_comment': {
+    comment: 'Block comment'
+    name: 'comment.block.jai'
+    begin: '/\\*'
+    end: '\\*/'
+    patterns: [
+      { include: '#block_comment' }
+    ]
+  }
+  
+  'comments': {
+    patterns: [
+      { include: '#block_comment' }
+      { include: '#line_comment' }
+    ]
+  }
+  
+  #  #
+  #  #       # ##### ###### #####    ##   #       ####
+  #  #       #   #   #      #    #  #  #  #      #
+  #  #       #   #   #####  #    # #    # #       ####
+  #  #       #   #   #      #####  ###### #           #
+  #  #       #   #   #      #   #  #    # #      #    #
+  #  ####### #   #   ###### #    # #    # ######  ####
+  
+  'literals': {
+    patterns: [
+      { include: '#string_literal' }
+      { include: '#character_literal' }
+      { include: '#number_literal' }
+      { include: '#boolean_literal' }
+    ]
+  }
+  
+  ## Strings
+  
+  'escaped_character': {
+    name: 'constant.character.escape.jai'
+    match: '\\\\(x\\h{2}|[0-2][0-7]{,2}|3[0-6][0-7]?|37[0-7]?|[4-7][0-7]?|.)'
+  }
+  
+  'string_literal': {
+    comment: 'Double-quote string literal'
+    name: 'string.quoted.double.jai'
+    begin: '"'
+    end: '"'
+    patterns: [
+      { include: '#escaped_character' }
+    ]
+  }
+  
+  'character_literal': {
+    comment: 'Character literal'
+    name: 'string.quoted.single.jai'
+    match: '(b?\')(?:[^\'\\\\]|\\\\(?:x\\h{2}|[0-2][0-7]{,2}|3[0-6][0-7]?|37[0-7]?|[4-7][0-7]?|.))([^\']*)(\')'
+    captures: {
+      '1': { name: '' }
+      '2': { name: 'invalid.illegal.jai' }
+      '3': { name: '' }
+    }
+  }
+    
+  ## Numbers
+  
+  'number_literal': {
+    patterns: [
+      { include: '#floating_point_literal' }
+      { include: '#integer_literal' }
+    ]
+  }
+  
+  'floating_point_literal': {
+    patterns: [
+      {
+        comment: 'Floating point literal (basic)'
+        name: 'constant.numeric.float.jai'
+        match: '\\b([0-9][0-9_]*\\.[0-9][0-9_]*)\\b'
+      }
+      {
+        comment: 'Floating point literal (typed)'
+        name: 'constant.numeric.float.jai'
+        match: '\\b([0-9][0-9_]*(?:\\.[0-9][0-9_]*)?)(f32|f64)\\b'
+      }
+      {
+        comment: 'Floating point literal (exponent)'
+        name: 'constant.numeric.float.jai'
+        match: '\\b([0-9][0-9_]*(?:\\.[0-9][0-9_]*)?[eE][+-]?[0-9_]+)(f32|f64)?\\b'
+      }
+      {
+        comment: 'Floating point literal (hexadecimal)'
+        name: 'constant.numeric.integer.hexadecimal.jai'
+        match: '\\b0h[a-fA-F0-9_]+\\b'
+      }
+    ]
+  }
+  
+  'integer_literal': {
+    patterns: [
+      {
+        comment: 'Integer literal (decimal)'
+        name: 'constant.numeric.integer.decimal.jai'
+        match: '\\b[0-9][0-9_]*\\b'
+      }
+      {
+        comment: 'Integer literal (hexadecimal)'
+        name: 'constant.numeric.integer.hexadecimal.jai'
+        match: '\\b0x[a-fA-F0-9_]+\\b'
+      }
+      {
+        comment: 'Integer literal (binary)'
+        name: 'constant.numeric.integer.binary.jai'
+        match: '\\b0b[01_]+\\b'
+      }
+    ]
+  }
+  
+  ## Other
+  
+  'boolean_literal': {
+    comment: 'Boolean constant'
+    name: 'constant.language.boolean.jai'
+    match: '\\b(true|false)\\b'
+  }
+  
+  #  #    #
+  #  #   #  ###### #   # #    #  ####  #####  #####   ####
+  #  #  #   #       # #  #    # #    # #    # #    # #
+  #  ###    #####    #   #    # #    # #    # #    #  ####
+  #  #  #   #        #   # ## # #    # #####  #    #      #
+  #  #   #  #        #   ##  ## #    # #   #  #    # #    #
+  #  #    # ######   #   #    #  ####  #    # #####   ####
+  
+  'keywords':
+    patterns: [
+      { include: '#value_keywords' }
+      { include: '#modifiers' }
+      { include: '#control' }
+    ]
+  
+  'value_keywords':
+    patterns: [
+      { include: '#types' }
+      { include: '#modifiers' }
+      { include: '#special_variables' }
+      { include: '#generic' }
+    ]
+  
+  ## Modifiers
+  
+  'modifiers':
+    patterns: [
+      {
+        comment: 'Storage modifier'
+        name: 'storage.modifier.jai'
+        match: '\\b(SOA|using)\\b'
+      }
+    ]
+  
+  ## Types
+  
+  'types':
+    patterns: [
+      {
+        name: 'storage.type.core.jai'
+        match: '\\b(int|float|double|bool|char|string)\\b'
+      }
+      {
+        name: 'storage.type.core.jai'
+        match: '\\b(u8|u16|u32|u64)\\b'
+      }
+      {
+        name: 'storage.type.struct.core.jai'
+        match: '\\b(Type)\\b'
+      }
+    ]
+  
+  ## Control
+  
+  'control':
+    comment: 'Control keyword'
+    name: 'keyword.control.jai'
+    match: '\\b(break|continue|else|if|in|for|match|return|while)\\b'
+  
+  ## Special values
+  
+  'special_variables':
+    patterns: [
+      { include: '#self' }
+      { include: '#initializer' }
+      {
+        match: '\\bit\\b'
+        name: 'variable.language.it.jai'
+      }
+    ]
+  
+  'self':
+    comment: 'Self variable'
+    name: 'variable.language.self.jai'
+    match: '\\bself\\b'
+  
+  'initializer':
+    comment: 'Empty struct initializer'
+    name: 'constant.language.jai'
+    match: '---'
+  
+  #  #######
+  #  #     # #####  ###### #####    ##   #####  ####  #####   ####
+  #  #     # #    # #      #    #  #  #    #   #    # #    # #
+  #  #     # #    # #####  #    # #    #   #   #    # #    #  ####
+  #  #     # #####  #      #####  ######   #   #    # #####       #
+  #  #     # #      #      #   #  #    #   #   #    # #   #  #    #
+  #  ####### #      ###### #    # #    #   #    ####  #    #  ####
+  
+  'operators': {
+    patterns: [
+      {
+        comment: ''
+        name: 'keyword.operator.jai'
+        match: '->|=>|::|:|\\$\\$|\\.\\.'
+      }
+      {
+        comment: 'Assignment operator'
+        name: 'keyword.operator.assignment.jai'
+        match: '\\+=|-=|/=|\\*=|%=|\\^=|&=|\\|=|<<=|>>=|:=|='
+      }
+      {
+        comment: 'Comparison operator'
+        name: 'keyword.operator.comparison.jai'
+        match: '&&|\\|\\||==|!=|<(?!<)|>(?!>)|>=|<='
+      }
+      {
+        comment: 'Arithmetic operator'
+        name: 'keyword.operator.arithmetic.jai'
+        match: '!|\\+(?!\\+)|-(?!-)|/|\\*|%|\\^|&|\\||<<|>>'
+      }
+      {
+        comment: 'Common non-existant operators'
+        name: 'invalid.illegal.jai'
+        match: '\\+\\+|--'
+      }
+      {
+        comment: 'Keyword'
+        name: 'keyword.other.jai'
+        match: '\\b(new|defer)\\b'
+      }
+    ]
+  }
+  
+  # Punctuation
+  
+  'punctuation':
+    patterns: [
+      { include: '#punctuation_brackets' }
+      { include: '#punctuation_parentheses' }
+    ]
+  
+  'punctuation_brackets':
+    comment: '[ and ]'
+    name: 'punctuation.bracket.jai'
+    match: '[\\[\\]]'
+  
+  'punctuation_parentheses':
+    comment: '( and )'
+    name: 'punctuation.parenthesis.jai'
+    match: '[\\(\\)]'
+  
+  #   #####
+  #  #     # ##### #####  #    #  ####  ##### #    # #####  ######  ####
+  #  #         #   #    # #    # #    #   #   #    # #    # #      #
+  #   #####    #   #    # #    # #        #   #    # #    # #####   ####
+  #        #   #   #####  #    # #        #   #    # #####  #           #
+  #  #     #   #   #   #  #    # #    #   #   #    # #   #  #      #    #
+  #   #####    #   #    #  ####   ####    #    ####  #    # ######  ####
+  
+  'generic':
+    match: '(\\$)([\\p{Alpha}_][\\w]*)'
+    name: 'meta.type.generic.jai'
+    captures:
+      '1': { name: 'punctuation.type.generic.jai' }
+      '2': { name: 'entity.name.type.generic.jai' }
+  
+  'block':
+    begin: '({)'
+    beginCaptures:
+      '1': { name: 'punctuation.brace.open.jai' }
+    end: '(})'
+    endCaptures:
+      '1': { name: 'punctuation.brace.close.jai' }
+    patterns: [
+      { include: '$self' }
+    ]
+  
+  'function_declaration':
+    begin: '([\\p{Alpha}_][\\w]*)\\s*(::)\\s*(?=\\()'
+    beginCaptures:
+      '1': { name: 'entity.name.function.jai' }
+      '2': { name: 'keyword.operator.misc.jai' }
+    end: '(?={|;)'
+    name: 'meta.definition.function.jai'
+    patterns: [
+      { include: '#comments' }
+      { include: '#block' }
+      { include: '#sem_processor' }
+      { include: '#operators' }
+      { include: '#value_keywords' }
+    ]
+  
+  'function_call':
+    match: '\\b([\\p{Alpha}_][\\w]*)\\s*(?=\\()'
+    captures:
+      '1': { name: 'entity.name.function.jai' }
+  
+  'special_function_call':
+    match: '\\b(free|cast|print|concatenate)\\s*(?=\\()'
+    captures:
+      '1': { name: 'support.function.core.jai' }
+  
+  'struct_declaration':
+    begin: '([\\p{Alpha}_][\\w]*)\\s*(::)\\s*(struct\\b)'
+    beginCaptures:
+      '1': { name: 'entity.name.type.class.jai' }
+      '2': { name: 'keyword.operator.misc.jai' }
+      '3': { name: 'storage.type.core.jai' }
+    end: '(?={)'
+    name: 'meta.definition.struct.jai'
+    patterns: [
+      { include: '#comments' }
+      { include: '#block' }
+      { include: '#sem_processor' }
+      { include: '#operators' }
+      { include: '#value_keywords' }
+    ]
+  
+  'constant_declaration':
+    begin: '([\\p{Alpha}_][\\w]*)\\s*(::)'
+    beginCaptures:
+      '1': { name: 'variable.constant.jai' }
+      '2': { name: 'keyword.operator.misc.jai' }
+    end: '(?=;|$)'
+    name: 'meta.definition.constant.jai'
+    patterns: [
+      { include: '#comments' }
+      { include: '#expressions' }
+    ]
+  
+  'sem_processor':
+    match: '((#)(?:(run|import|load|type|bake|unshared|char|foreign|foreign_system_library|body_text)|(if)|(\\w+)))\\b'
+    captures:
+      '1': { name: 'keyword.control.directive.jai' }
+      '2': { name: 'punctuation.definition.directive.jai' }
+      '3': { name: 'keyword.control.directive.jai' }
+      '4': { name: 'keyword.control.directive.conditional.jai' }
+      '5': { name: 'invalid.illegal.jai' }
+    name: 'meta.preprocessor.jai'
+  
+  #   #####
+  #  #     # ###### #    # ###### #####    ##   #
+  #  #       #      ##   # #      #    #  #  #  #
+  #  #  #### #####  # #  # #####  #    # #    # #
+  #  #     # #      #  # # #      #####  ###### #
+  #  #     # #      #   ## #      #   #  #    # #
+  #   #####  ###### #    # ###### #    # #    # ######
+  
+  'expressions':
+    patterns: [
+      { include: '#comments' }
+      { include: '#sem_processor' }
+      { include: '#literals' }
+      { include: '#value_keywords' }
+      { include: '#special_function_call' }
+      { include: '#function_call' }
+      { include: '#operators' }
+      { include: '#punctuation' }
+    ]
+}
+
+patterns: [
+  { include: '#expressions' }
+  { include: '#control' }
+  { include: '#punctuation' }
+  { include: '#modifiers' }
+  { include: '#other_keywords' }
+  
+  # Structures
+  { include: '#block' }
+  { include: '#function_declaration' }
+  { include: '#struct_declaration' }
+  { include: '#constant_declaration' }
+]
