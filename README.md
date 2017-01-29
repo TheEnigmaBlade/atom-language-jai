@@ -1,4 +1,4 @@
-# Rust language support in Atom
+# Jai language support in Atom
 
 [![apm](https://img.shields.io/apm/v/language-jai.svg)](https://atom.io/packages/language-jai)
 
