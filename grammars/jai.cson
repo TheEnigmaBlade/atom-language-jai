@@ -49,6 +49,7 @@ repository: {
       { include: '#character_literal' }
       { include: '#number_literal' }
       { include: '#boolean_literal' }
+      { include: '#null_literal' }
     ]
   }
   
@@ -142,6 +143,11 @@ repository: {
     match: '\\b(true|false)\\b'
   }
   
+  'null_literal': {
+    name: 'constant.language.null.jai'
+    match: '\\bnull\\b'
+  }
+  
   #  #    #
   #  #   #  ###### #   # #    #  ####  #####  #####   ####
   #  #  #   #       # #  #    # #    # #    # #    # #
@@ -182,11 +188,11 @@ repository: {
     patterns: [
       {
         name: 'storage.type.core.jai'
-        match: '\\b(int|float|double|bool|char|string)\\b'
+        match: '\\b(int|float|double|bool|char|string|void)\\b'
       }
       {
         name: 'storage.type.core.jai'
-        match: '\\b(u8|u16|u32|u64)\\b'
+        match: '\\b(u8|u16|u32|u64|float32|float64|s8|s16|s32|s64)\\b'
       }
       {
         name: 'storage.type.struct.core.jai'
