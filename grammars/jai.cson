@@ -242,7 +242,7 @@ repository: {
       {
         comment: ''
         name: 'keyword.operator.jai'
-        match: '->|=>|::|:|\\$\\$|\\.\\.'
+        match: '->|=>|::|:|\\$\\$|\\.\\.|xx'
       }
       {
         comment: 'Assignment operator'
